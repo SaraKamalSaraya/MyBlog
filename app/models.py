@@ -21,12 +21,23 @@ class Post(db.Model):
     
     @property
     def get_show_url(self):
-        return url_for('post.detials', id=self.id)
+        return url_for('posts.post-detials', id=self.id)
     
     @property
     def get_delete_url(self):
-        return url_for('post.delete', id=self.id)
+        return url_for('posts.post-delete', id=self.id)
     
     @property
     def get_edit_url(self):
-        return url_for('post.edit', id=self.id)
+        return url_for('posts.post-edit', id=self.id)
+    
+    def save_post(self):
+        db.session.add(self)
+        db.session.commit()
+    
+    def save_edited_post(self):
+        db.session.commit()
+
+    def delete_post(self):
+        db.session.delete(self)
+        db.session.commit()
