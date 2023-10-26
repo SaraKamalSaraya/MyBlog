@@ -1,6 +1,6 @@
-from flask import Flask, request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for
 from app.posts import posts_blueprint
-from app.models import Post
+from app.models import Category, Post
 from werkzeug.utils import secure_filename
 import os
 from flask import current_app
@@ -21,6 +21,7 @@ def posts():
 # Add New Post
 @posts_blueprint.route('/add_new_post', endpoint='post-add', methods=['GET', 'POST'])
 def addnewpost():
+    categories = Category.query.all()
     if request.method == 'POST':
         filename = None
         if 'image' in request.files:
@@ -29,10 +30,10 @@ def addnewpost():
                 filename = secure_filename(file.filename)
                 file_path = os.path.join(current_app.config['POSTS_UPLOAD_FOLDER'], filename)
                 file.save(file_path)
-        post = Post(title=request.form['title'], body=request.form['body'], image=filename)
+        post = Post(title=request.form['title'], body=request.form['body'], image=filename, category_id=request.form['category_id'])
         post.save_post()
         return redirect(url_for('posts.posts'))
-    return render_template('posts/addnewpost.html')
+    return render_template('posts/addnewpost.html', categories=categories)
 
 # -------------------------------------------------------------------------------
 
@@ -60,11 +61,13 @@ def post_delete(id):
 # Edit Post
 @posts_blueprint.route('/post/<int:id>/edit', endpoint='post-edit', methods=['GET', 'POST'])
 def editpost(id):
+    categories = Category.query.all()
     post = Post.query.get_or_404(id)
     filename = None
     if request.method == 'POST':
         post.title = request.form['title']
         post.body = request.form['body']
+        post.category_id = request.form['category_id']
         if 'image' in request.files:
             file = request.files['image']
             if file:
@@ -74,4 +77,4 @@ def editpost(id):
         post.image = filename
         post.save_edited_post()
         return redirect(post.get_show_url)
-    return render_template('posts/editpost.html', post=post)
+    return render_template('posts/editpost.html', post=post, categories=categories)

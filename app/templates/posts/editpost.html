@@ -18,6 +18,18 @@
       <label class="form-label">Body</label>
       <textarea type="text" name='body' class="form-control">{{post.body}}</textarea>
     </div>
+    <div class="mb-3">
+      <select class="form-select" name="category_id" aria-label="Default select example">
+        <option selected disabled value="">Open this select menu</option>
+        {% for category in categories %}
+        {% if post.category_id == category.id %} 
+          <option value='{{category.id}}' selected>{{category.title}}</option>
+        {% else %}
+          <option value='{{category.id}}'>{{category.title}}</option>
+        {% endif %}
+        {% endfor %}
+      </select>
+    </div>
     <center><button type="submit" class="btn btn-primary w-25">Save Changes</button></center>
   </form>
 {% endblock %}

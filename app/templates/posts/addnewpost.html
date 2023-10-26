@@ -19,6 +19,14 @@
       <label class="form-label">Body</label>
       <textarea name='body' class="form-control"></textarea>
     </div>
+    <div class="mb-3">
+      <select class="form-select" name="category_id">
+        <option selected disabled value="">Category</option>
+        {% for category in categories %}
+        <option value='{{category.id}}'>{{category.title}}</option>
+        {% endfor %}
+      </select>
+    </div>
     <center><button type="submit" class="btn btn-primary w-25">Save Changes</button></center>
   </form>
 {% endblock %}

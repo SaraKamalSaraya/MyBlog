@@ -1,0 +1,22 @@
+{% extends 'layouts/base.html' %} 
+{% block title %} Categories {% endblock %} 
+
+{% block content %}
+<br>
+<a href="{{ url_for('categories.category-add') }}" class="btn btn-primary mb-4">Add New Category</a>
+<div class=" d-flex flex-wrap justify-content-evenly">
+    {% for category in categories %}
+        <div class="card mx-4 my-4 w-25" >
+            <div class="card-body">
+              <p class="card-title fw-bold fs-5">{{ category["title"] }}</p>
+              <div class="d-flex justify-content-between">
+                <a href="{{ category.get_show_url }}" class="btn btn-outline-primary">Show</a>
+              <a href="{{ category.get_edit_url }}"  class="btn btn-outline-primary">Edit</a>
+              <a href="{{ category.get_delete_url }}" class="btn btn-outline-primary">Delete</a>
+              </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
