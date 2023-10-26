@@ -18,8 +18,7 @@ def categories():
 @categories_blueprint.route('/add_new_category', endpoint='category-add', methods=['GET', 'POST'])
 def addnewcategory():
     if request.method == 'POST':
-        filename = None
-        category = Category(title=request.form['title'], body=request.form['body'], image=filename)
+        category = Category(title=request.form['title'])
         category.save_category()
         return redirect(url_for('categories.categories'))
     return render_template('categories/addnewcategory.html')
@@ -52,6 +51,7 @@ def post_delete(id):
 def editpost(id):
     category = Category.query.get_or_404(id)
     if request.method == 'POST':
+        category.title = request.form['title']
         category.save_edited_category()
         return redirect(category.get_show_url)
     return render_template('categories/editcategory.html', category=category)
