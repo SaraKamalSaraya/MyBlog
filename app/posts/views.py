@@ -10,13 +10,6 @@ from flask import current_app
 def helloworld():
     return '<h1> Hello world </h1>'
 
-@posts_blueprint.route('/contactus',endpoint='contactus')
-def contactus():
-    return render_template('posts/contactus.html')
-@posts_blueprint.route('/aboutus',endpoint='aboutus')
-def aboutus():
-    return render_template('posts/aboutus.html')
-
 # Home Page : All Posts
 @posts_blueprint.route('', endpoint='posts')
 def posts():
