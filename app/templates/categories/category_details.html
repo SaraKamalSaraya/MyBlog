@@ -17,9 +17,11 @@
                 <div class="col-sm-3">
                     <h6 class="mb-0">Posts</h6>
                 </div>
-                {% for post in category.posts %}       
-                    <div class="col-sm-9 text-secondary">{{post.title}}</div>
-                {% endfor %}
+                <div class="col-sm-9 ">
+                    {% for post in category.posts %}       
+                        <div class="text-secondary">{{post.title}}</div>
+                    {% endfor %}
+                </div>
             </div>
             <hr />
             <div class="row">
