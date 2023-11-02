@@ -20,6 +20,21 @@ class Post(db.Model):
     def get_image_url(self):
         return url_for('static', filename=f'{self.STATIC_FOLDER}/{self.image}')
     
+    @classmethod
+    def get_all_objects(cls):
+        return cls.query.all()
+    
+    @classmethod
+    def get_specific_post(cls, id):
+        return cls.query.get_or_404(id)
+    
+    @classmethod
+    def create_post(cls, request_form):
+        post = cls(**request_form)
+        db.session.add(post)
+        db.session.commit()
+        return post
+    
     @property
     def get_show_url(self):
         return url_for('posts.post-detials', id=self.id)
@@ -56,6 +71,12 @@ class Category(db.Model):
     @property
     def get_show_url(self):
         return url_for('categories.category-detials', id=self.id)
+    
+    
+    
+    @classmethod
+    def get_specific_post(cls, id):
+        return cls.query.get_or_404(id)
     
     @property
     def get_delete_url(self):

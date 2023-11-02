@@ -1,3 +1,5 @@
+from flask_restful import Api
+from .posts.api_view import PostList, PostResource
 from flask import Flask
 from app.models import db
 from app.config import projectConfig as AppConfig
@@ -13,10 +15,15 @@ def create_app(config_name='dev'):
     app.config.from_object(current_config)
     POSTS_STATIC_FOLDER = "static/posts/images"
     app.config['POSTS_UPLOAD_FOLDER'] = POSTS_STATIC_FOLDER
-    CATEGORY_STATIC_FOLDER = "static/posts/images"
+    CATEGORY_STATIC_FOLDER = "static/category/images"
     app.config['CATEGORY_UPLOAD_FOLDER'] = CATEGORY_STATIC_FOLDER
     db.init_app(app)
     migrate = Migrate(app, db, render_as_batch=True)
+
+    api = Api(app)
+
+    api.add_resource(PostList, '/api/posts')
+    api.add_resource(PostResource, '/api/posts/<int:post_id>')
 
     # Contact
     def contactus():
